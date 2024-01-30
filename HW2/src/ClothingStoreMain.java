@@ -67,22 +67,4 @@ public class ClothingStoreMain {
         testCase7();
         testCase8();
     }
-}System.out.println("\nTest Case 8:");
-        ClothingStore shop = new ClothingStore();
-        shop.processOrder(new Order(0, 0, 1, 0));
-        shop.processOrder(new Order(1, 0, 0, 0));
-        shop.processOrder(new Order(0, 1, 0, 0));
-        shop.processOrder(new Order(0, 0, 0, 1));
-        System.out.println(shop);
-        }
-public static void main(String[] args) {
-        testCase1();
-        testCase2();
-        testCase3();
-        testCase4();
-        testCase5();
-        testCase6();
-        testCase7();
-        testCase8();
-        }
-        }
+}
