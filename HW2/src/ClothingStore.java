@@ -1,50 +1,59 @@
 public class ClothingStore {
-    //FIELDS
-    //total remaining inventory
-    int dresses;
-    int shirts;
-    int pants;
-    int suits;
+    //ITEMS INVENTORY
+    public static final int DRESSES_INVENTORY = 24;
+    public static final int SHIRTS_INVENTORY = 65;
+    public static final int PANTS_INVENTORY = 87;
+    public static final int SUITS_INVENTORY = 22;
 
-    //item prices
-    public static final double DRESSES_PRICE = 35;
-    public static final double SHIRTS_PRICE = 22;
-    public static final double PANTS_PRICE = 22.5;
-    public static final double SUITS_PRICE = 50;
+    //FIELDS
+    private int dresses;
+    private int shirts;
+    private int pants;
+    private int suits;
 
     int returnedOrders;
     double totalSales;
 
     //CONSTRUCTOR
     public ClothingStore() {
-        dresses = 22;
-        shirts = 68;
-        pants = 74;
-        suits = 99;
+        dresses = DRESSES_INVENTORY;
+        shirts = SHIRTS_INVENTORY;
+        pants = PANTS_INVENTORY;
+        suits = SUITS_INVENTORY;
+        returnedOrders = 0;
         totalSales = 0;
     }
 
     //METHODS
-    public String toString() {
+    public void processOrder(Order order) {
+        //case1: the order can be fulfilled
+        if ((dresses < order.getDressCount())
+        && (shirts < order.getShirtCount())
+        && (pants < order.getPantsCount())
+        && (suits < order.getSuitCount())) {
+            dresses -= order.getDressCount();
+            shirts -= order.getShirtCount();
+            pants -= order.getPantsCount();
+            suits -= order.getSuitCount();
 
-        return "Dresses sold: " + (22-dresses) + "\n" +
-                //................
-                "The number of returned orders: " + returnedOrders + "\n" +
-                "Total sales: " + totalSales;
+            //total price for each
+            totalSales += order.calculateTotal();
+        } else {
+            returnedOrders++;
+        }
     }
 
-    public void processOrder(Order order) {
-        dresses -= order.getDressCount();
-        shirts -= order.getShirtCount();
-        pants -= order.getPantsCount();
-        suits -= order.getSuitCount();
-
-        //total price for each
-        double priceDresses = order.getDressCount()*DRESSES_PRICE;
-        double priceShirts = order.getShirtCount()*SHIRTS_PRICE;
-        double pricePants = order.getPantsCount()*PANTS_PRICE;
-        double priceSuits = order.getSuitCount()*SUITS_PRICE;
-        totalSales += priceDresses + priceShirts + pricePants + priceSuits;
+    public String toString() {
+        int dressesSold = DRESSES_INVENTORY-dresses;
+        int shirtsSold = SHIRTS_INVENTORY-shirts;
+        int pantsSold = PANTS_INVENTORY-pants;
+        int suitsSold = SUITS_INVENTORY-suits;
+        return "Dresses sold: " + dressesSold + "\n" +
+                "Shirts sold: " + shirtsSold + "\n" +
+                "Pants sold: " + pantsSold + "\n" +
+                "Suits sold: " + suitsSold + "\n" +
+                "The number of returned orders: " + returnedOrders + "\n" +
+                "Total sales: " + totalSales;
     }
 
 }
