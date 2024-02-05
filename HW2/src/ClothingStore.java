@@ -1,5 +1,6 @@
 public class ClothingStore {
     //ITEMS INVENTORY
+    //set the defalut inventory
     public static final int DRESSES_INVENTORY = 24;
     public static final int SHIRTS_INVENTORY = 65;
     public static final int PANTS_INVENTORY = 87;
@@ -11,7 +12,9 @@ public class ClothingStore {
     private int pants;
     private int suits;
 
+    //count of the orders that could not be filled because the inventory was too low
     int returnedOrders;
+    //total of all processed orders
     double totalSales;
 
     //CONSTRUCTOR
@@ -27,10 +30,11 @@ public class ClothingStore {
     //METHODS
     public void processOrder(Order order) {
         //case1: the order can be fulfilled
-        if ((dresses < order.getDressCount())
-        && (shirts < order.getShirtCount())
-        && (pants < order.getPantsCount())
-        && (suits < order.getSuitCount())) {
+        if ((order.getDressCount() <= dresses)
+        && (order.getShirtCount() <= shirts)
+        && (order.getPantsCount() <= pants)
+        && (order.getSuitCount() <= suits)) {
+            //update inventory based on current order
             dresses -= order.getDressCount();
             shirts -= order.getShirtCount();
             pants -= order.getPantsCount();
@@ -39,6 +43,7 @@ public class ClothingStore {
             //total price for each
             totalSales += order.calculateTotal();
         } else {
+            //case2: cannot be fulfulled -> do not update inventory and increment returnedOrders
             returnedOrders++;
         }
     }
