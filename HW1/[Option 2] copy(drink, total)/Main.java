@@ -1,112 +1,53 @@
-import java.util.*;
+import java.util.*; //random, scanner, arrays
 
 public class Main {
-    public static void moreDrink(Scanner scan, String response, Order order) {
-        //how to chang 'Order order1' into general order, so I can use it again afterward
-        if ((response.equalsIgnoreCase("yes")) || (response.equalsIgnoreCase("no"))) {
-            while (response.equalsIgnoreCase("yes")) {
-                System.out.println("What would you like?");
-                String drinkN = scan.nextLine();
-                order.askingForDrink(drinkN);
-                System.out.println("Anything else? [YES] or [NO]");
-                response = scan.nextLine();
-            }
-        } else {
-            System.out.println("Invalid response.");
+    public static void printArray(int[] arr) {
+        if (arr.length >= 1) {
+            System.out.print("[ " + arr[0]);
+            for (int i = 1; i < arr.length; i++)
+                System.out.print(", " + arr[i]);
+            System.out.println(" ]");
         }
     }
 
-    public static double getPriceFromDrink(String orderResponse) {
-        int total = 0;
-
-        double black_milk_tea = 4.50;
-        double pearl_milk_tea = 5.25;
-        double oolong_milk_tea = 5.25;
-
-        //winter melon tea
-        double winter_melon_tea = 5.25;
-        double winter_melon_lemon_tea = 5.50;
-
-        if (orderResponse.equalsIgnoreCase("Black Milk Tea")) {
-            total += black_milk_tea;
-        } else if (orderResponse.equalsIgnoreCase("Pearl Milk Tea")) {
-            total += pearl_milk_tea;
-        } else if (orderResponse.equalsIgnoreCase("Oolong Milk Tea")) {
-            total += oolong_milk_tea;
-        } else if (orderResponse.equalsIgnoreCase("Winter Melon Tea")) {
-            total += winter_melon_tea;
-        } else if (orderResponse.equalsIgnoreCase("Winter Melon Lemon Tea")) {
-            total += winter_melon_lemon_tea;
-        }
-        return total;
-    }
     public static void main(String[] args) {
+        //1 - generate an array of randomized numbers
+        int arrLength = 10;
+        Random rand = new Random();
+        int[] arr = new int[arrLength];
+        for (int i = 0; i < arrLength; i++) {
+            arr[i] = rand.nextInt(20);
+            System.out.println(arr[i]);
+        }
+        //2 - print the array
+        printArray(arr);
+//        System.out.println(Arrays.toString(arr));
+        //using arrays library
+
+        //3 - sort the array
+        //4 - print the array again, now that it has been sorted
+        Sort arrSorted = new Sort(arr);
+        arrSorted.bubbleSort(arr);
+        arrSorted.bubbleSortShortCircuit(arr);
+        arrSorted.selectionSort(arr);
+
+        //5 - ask the user for a search value
         Scanner scan = new Scanner(System.in);
+        System.out.print("\nSearch value: ");
+        int responseSearchValue = scan.nextInt();
 
-        System.out.println("WELCOME TO OUR BUBBLE TEA SHOP!!");
-        System.out.println("______________MENU______________");
-        System.out.println("|***********Milk Tea***********|");
-        System.out.println("| Black Milk Tea: 4.50         |");
-        System.out.println("| Pearl Milk Tea: 5.25         |");
-        System.out.println("| Oolong Milk Tea: 5.25        |");
-        System.out.println("|______________________________|");
-        System.out.println("|*******Winter Melon Tea*******|");
-        System.out.println("| Winter Melon Tea: 5.25       |");
-        System.out.println("| Winter Melon Lemon Tea: 5.50 |");
-        System.out.println("|______________________________|");
-        System.out.println();
+        //6 - search the array using both linear and binary search
+        Search arrSearched = new Search(arr, responseSearchValue);
+        //linear search
+        int arrLinear = arrSearched.linearSearch(arr, responseSearchValue);
+        if (arrLinear != -1) {
+            System.out.println("Search value by linear was found at index: " + arrLinear);
+        } else { System.out.println("The linear search value was not found!"); }
 
-        System.out.println("ORDER 1");
-        System.out.println("Hello. What would you like today?");
-        String order1Response = scan.nextLine();
-
-        //creating and asking customers a new order object named order1
-        Order order1 = new Order();
-        order1.setDrink(order1Response);
-        order1.setTotal(getPriceFromDrink(order1Response));
-        order1.askingForDrink(order1Response);
-
-        //more drinks?
-        System.out.println("Anything else? [YES] or [NO]");
-        String responseForMoreDrink1 = scan.nextLine();
-        moreDrink(scan, responseForMoreDrink1, order1);
-
-        //PRINT OUT RECEIPT
-        System.out.println(Order.printOutReceipt(order1));
-        System.out.println();
-
-        //------------------------------------------
-//        System.out.println("ORDER  2");
-//        System.out.println("Hello. What would you like today?\n" +
-//                "(Option: Copy Previous Order)");
-//        String order2Response = scan.nextLine();
-//        if (order2Response.equalsIgnoreCase("Copy Previous Order")) {
-//            //COPY ORDER
-//            CopyOrder order2a = new CopyOrder();
-//            order2a.copy(order1);
-//
-//            //PRINT OUT RECEIPT (use the method from class CopyOrder)
-//            CopyOrder.printOutReceipt(order2a);
-//        } else {
-//            //creating and asking customers a new order object named order2b
-//            Order order2b = new Order(order2Response);
-//            order2b.askingForDrink(order2Response);
-//
-//            //more drinks?
-//            System.out.println("Anything else? [YES] or [NO]");
-//            String responseForMoreDrink2 = scan.nextLine();
-//            moreDrink(scan, responseForMoreDrink2, order2b);
-//
-//            //PRINT OUT RECEIPT
-//            System.out.println(Order.printOutReceipt(order2b));
-//            System.out.println();
-//        }
-
-        //COPY ORDER
-        System.out.println("ORDER 2 IS THE SAME AS ORDER1");
-        Order order2 = order1.copy();
-
-        //PRINT OUT RECEIPT (use the method from class CopyOrder)
-        System.out.println(Order.printOutReceipt(order2));
+        //binary search
+        int arrBinary = arrSearched.binarySearch(arr, responseSearchValue);
+        if (arrBinary != -1) {
+            System.out.println("Search value by binary was found at index: " + arrBinary);
+        } else { System.out.println("The binary search value was not found!"); }
     }
 }
