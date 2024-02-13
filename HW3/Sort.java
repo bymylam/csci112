@@ -9,14 +9,6 @@ public class Sort {
     }
 
     //BEHAVIOR
-    public static void printArray(int[] arr) {
-        if(arr.length >= 1) {
-            System.out.print("[ " + arr[0]);
-            for(int i = 1; i < arr.length; i++)
-                System.out.print(", " + arr[i]);
-            System.out.println(" ]");
-        }
-    }
     public static void bubbleSort(int[] arr){
         int maxID; //right-most position in unsorted portion of array
         int index;
@@ -26,7 +18,7 @@ public class Sort {
             for (index = 0; index < maxID; index++){
 //Check if pair of values need to swap
                 if (arr[index] > arr[index + 1]) {
-//swap elements
+                    //swap elements
                     int temp = arr[index];
                     arr[index] = arr[index + 1];
                     arr[index + 1] = temp;
@@ -34,8 +26,9 @@ public class Sort {
             }
         }
         System.out.println("Bubble Sort Array: " + Arrays.toString(arr));
+//        return arr;
     }
-    public static void bubbleSortShortCircuit(int arr[]){
+    public static void bubbleSortShortCircuit(int[] arr){
         boolean madeASwap = true; //This will be part of the loop condition
         for (int maxID = arr.length - 1; maxID > 0 && madeASwap; maxID--){
             madeASwap = false; //No swaps have occurred yet on this pass
@@ -49,6 +42,7 @@ public class Sort {
             }
         }
         System.out.println("Bubble Sort Short Circuit: " + Arrays.toString(arr));
+//        return arr;
     }
     public static void selectionSort(int arr[]){
         int minIndex, minValue;
@@ -66,5 +60,6 @@ public class Sort {
             arr[start] = temp;
         }
         System.out.println("Selection Sort Array: " + Arrays.toString(arr));
+//        return arr;
     }
 }
